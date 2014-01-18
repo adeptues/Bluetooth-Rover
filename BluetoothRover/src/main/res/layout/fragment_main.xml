@@ -8,9 +8,41 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity$PlaceholderFragment">
 
-    <TextView
-        android:id="@+id/section_label"
+    <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Connect"
+        android:id="@+id/connectBtn"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:clickable="true"
+        android:onClick="connectBluetooth" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disconnect"
+        android:id="@+id/discBtn"
+        android:layout_alignBottom="@+id/connectBtn"
+        android:layout_toRightOf="@+id/connectBtn"
+        android:onClick="disconnect" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/outView"
+        android:layout_below="@+id/connectBtn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:id="@+id/clearBtn"
+        android:layout_alignBottom="@+id/discBtn"
+        android:layout_toRightOf="@+id/discBtn"
+        android:onClick="clear" />
 </RelativeLayout>

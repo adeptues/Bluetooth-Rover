@@ -63,7 +63,7 @@ public class MainActivity extends ActionBarActivity {
             logger.warn("Application will exit now.");
             System.exit(0);
         }
-        this.blueSmirf = new BlueSmirf(bluetoothAdapter);
+        this.blueSmirf = new BlueSmirf(bluetoothAdapter,this);
 
 
         // Create the adapter that will return a fragment for each of the three
@@ -75,6 +75,25 @@ public class MainActivity extends ActionBarActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
     }
+    public void connectBluetooth(View view){
+        blueSmirf.connect();
+    }
+
+    public void disconnect(View view){
+        blueSmirf.disconnect();
+
+    }
+
+    public void displayMessgae(String message){
+        TextView tv = (TextView) findViewById(R.id.outView);
+        tv.append(message);
+    }
+
+    public void clear(View view){
+        TextView tv = (TextView) findViewById(R.id.outView);
+        tv.setText("");
+    }
+
 
 
     @Override
@@ -108,6 +127,7 @@ public class MainActivity extends ActionBarActivity {
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
+
 
         @Override
         public Fragment getItem(int position) {
@@ -166,8 +186,8 @@ public class MainActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+           // TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+           // textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
     }

@@ -6,6 +6,8 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.util.Log;
 
+import com.thelmkay.bluetoothrover.MainActivity;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,14 +32,14 @@ private static final Logger logger = LoggerFactory.getLogger(BlueSmirf.class);
     private InputStream is;
     private OutputStream os;
     private static final String NAME = "FireFly-2E3C";
-    private static final UUID DEVICE_UUID = UUID.fromString("");//TODO find device uuid
+    private static final UUID DEVICE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");//TODO find device uuid
 
     /**
      * Bluetooth is assumed to be available and enabled at this point if not things wont work
      * connects to an already paired device
      * @param bluetoothAdapter
      */
-    public BlueSmirf(BluetoothAdapter bluetoothAdapter){
+    public BlueSmirf(BluetoothAdapter bluetoothAdapter,MainActivity view){//TODO this is very dirty should use proper observer pattern or message broadcast fime me
         this.bluetoothAdapter = bluetoothAdapter;
         logger.info("Gettings paired devices");
        Set<BluetoothDevice> devices =  bluetoothAdapter.getBondedDevices();
