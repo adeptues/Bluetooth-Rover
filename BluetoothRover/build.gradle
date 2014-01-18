@@ -23,5 +23,7 @@ android {
 }
 
 dependencies {
-	compile 'com.android.support:appcompat-v7:+'
+	compile ('com.android.support:appcompat-v7:+',
+            'org.slf4j:slf4j-android:1.6.1-RC1'
+    )
 }

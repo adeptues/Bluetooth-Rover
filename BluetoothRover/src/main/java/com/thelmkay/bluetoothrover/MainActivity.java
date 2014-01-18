@@ -2,6 +2,8 @@ package com.thelmkay.bluetoothrover;
 
 import java.util.Locale;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -18,8 +20,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class MainActivity extends ActionBarActivity {
+import com.thelmkay.bluetoothrover.bluetooth.BlueSmirf;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class MainActivity extends ActionBarActivity {
+    private static final Logger logger = LoggerFactory.getLogger(MainActivity.class);
+    private BlueSmirf blueSmirf;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -39,7 +47,23 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        logger.info("Application started");
 
+        //enable bluetooth
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if(bluetoothAdapter == null){
+            logger.error("Bluetooth is not supported.");
+            logger.error("Application will exit now");
+            System.exit(0);
+        }
+        if(!bluetoothAdapter.isEnabled()){
+            //TODO enable request bluetooth via activity
+            //Just exit untill the user enables it.
+            logger.warn("Bluetooth not enabled on device. Please enable via menu and restart");
+            logger.warn("Application will exit now.");
+            System.exit(0);
+        }
+        this.blueSmirf = new BlueSmirf(bluetoothAdapter);
 
 
         // Create the adapter that will return a fragment for each of the three
