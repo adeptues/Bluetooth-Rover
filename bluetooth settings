@@ -1,0 +1,23 @@
+Blue tooth details
+
+CMD
+***Settings***
+BTA=000666492E3C
+BTName=FireFly-2E3C
+Baudrt(SW4)=9600
+Parity=None
+Mode  =Slav
+Authen=0
+Encryp=0
+PinCod=1234
+Bonded=0
+Rem=000666492FFD
+***ADVANCED Settings***
+SrvName= SPP
+SrvClass=0000
+DevClass=1F00
+InqWindw=0100
+PagWindw=0100
+CfgTimer=60
+StatuStr=NULL
+
