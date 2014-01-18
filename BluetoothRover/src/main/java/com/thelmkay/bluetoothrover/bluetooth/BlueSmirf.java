@@ -29,6 +29,7 @@ private static final Logger logger = LoggerFactory.getLogger(BlueSmirf.class);
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothDevice bluetoothDevice;
     private BluetoothSocket bluetoothSocket;
+   private MainActivity view;
     private InputStream is;
     private OutputStream os;
     private static final String NAME = "FireFly-2E3C";
@@ -41,6 +42,7 @@ private static final Logger logger = LoggerFactory.getLogger(BlueSmirf.class);
      */
     public BlueSmirf(BluetoothAdapter bluetoothAdapter,MainActivity view){//TODO this is very dirty should use proper observer pattern or message broadcast fime me
         this.bluetoothAdapter = bluetoothAdapter;
+        this.view = view;
         logger.info("Gettings paired devices");
        Set<BluetoothDevice> devices =  bluetoothAdapter.getBondedDevices();
         printDevices(devices);
@@ -106,6 +108,11 @@ private static final Logger logger = LoggerFactory.getLogger(BlueSmirf.class);
             is = bluetoothSocket.getInputStream();
             os = bluetoothSocket.getOutputStream();
             logger.info("ready for IO");
+            //TODO remove this. its for quick test not part of actual code
+            while(true){//TODO create actual serial montior object thats threaded and every thing
+                int a = is.read();
+                view.displayMessgae(Integer.toString(a));
+            }
         } catch (IOException e) {
             logger.error("Failed to connect",e);
             try {
