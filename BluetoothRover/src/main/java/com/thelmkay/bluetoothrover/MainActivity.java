@@ -85,7 +85,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void displayMessgae(String message){
+        logger.debug("Displaying message");
+        logger.debug("Finding text view");
         TextView tv = (TextView) findViewById(R.id.outView);
+        logger.debug("appending text");
         tv.append(message);
     }
 

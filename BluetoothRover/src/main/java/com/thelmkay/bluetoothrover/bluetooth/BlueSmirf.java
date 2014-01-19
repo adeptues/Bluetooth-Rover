@@ -110,7 +110,10 @@ private static final Logger logger = LoggerFactory.getLogger(BlueSmirf.class);
             logger.info("ready for IO");
             //TODO remove this. its for quick test not part of actual code
             while(true){//TODO create actual serial montior object thats threaded and every thing
+                logger.debug("Waiting for data to Reading io");
                 int a = is.read();
+                logger.debug("Data has been read ");
+                logger.debug("Data is "+a);
                 view.displayMessgae(Integer.toString(a));
             }
         } catch (IOException e) {
