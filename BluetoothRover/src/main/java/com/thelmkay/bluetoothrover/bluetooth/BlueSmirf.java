@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
 
@@ -29,11 +30,13 @@ private static final Logger logger = LoggerFactory.getLogger(BlueSmirf.class);
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothDevice bluetoothDevice;
     private BluetoothSocket bluetoothSocket;
-   private MainActivity view;
+    private MainActivity view;
+    private boolean connected = false;
+    private OutputMonitor monitor;
     private InputStream is;
     private OutputStream os;
     private static final String NAME = "FireFly-2E3C";
-    private static final UUID DEVICE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");//TODO find device uuid
+    private static final UUID DEVICE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     /**
      * Bluetooth is assumed to be available and enabled at this point if not things wont work
@@ -51,6 +54,8 @@ private static final Logger logger = LoggerFactory.getLogger(BlueSmirf.class);
                 bluetoothDevice = device;
             }
         }
+        logger.info("Creating output monitor thread");
+        this.monitor = new OutputMonitor(is,view);
     }
 
     private void printDevices(Set<BluetoothDevice> devices){
@@ -68,33 +73,69 @@ private static final Logger logger = LoggerFactory.getLogger(BlueSmirf.class);
 
     @Override
     public void disconnect() {
-        try {
-            is.close();
-            os.close();
-            bluetoothSocket.close();
-        } catch (IOException e) {
-            logger.error("Somthing horrible happened",e);
+        if(connected){
+            try {
+                monitor.stop();
+                logger.info("Success: stoped monitor");
+                is.close();
+                os.close();
+                bluetoothSocket.close();
+                connected = false;
+            } catch (IOException e) {
+                logger.error("Somthing horrible happened",e);
+            }
+        }else{
+            logger.info("Unable to disconnect, Need to be connected first");
+        }
+    }
+
+    @Override
+    public void forward() {
+        if(connected){
+            String hello = "Hello world";
+            logger.info("Attempting to send Data to device");
+            byte [] buffer =  hello.getBytes();
+
+
+            try {
+                os.write(buffer);
+            } catch (IOException e) {
+                logger.error("Failed to send bytes to device: "+hello,e);
+            }
+        }else{
+            logger.debug("Unable to send packet, Not connected");
         }
 
     }
 
     @Override
-    public void forward() {
-
-    }
-
-    @Override
     public void backwards() {
-
+        if(connected){
+            logger.info("Not implemented");
+        }else{
+            logger.debug("Unable to send packet, Not connected");
+            view.displayMessgae("Unable to send packet, Not connected");
+        }
     }
 
     @Override
     public void turnLeft() {
-
+        if(connected){
+            logger.info("Not implemented");
+        }else{
+            logger.debug("Unable to send packet, Not connected");
+            view.displayMessgae("Unable to send packet, Not connected");
+        }
     }
 
     @Override
     public void turnRight() {
+        if(connected){
+            logger.info("Not implemented");
+        }else{
+            logger.debug("Unable to send packet, Not connected");
+            view.displayMessgae("Unable to send packet, Not connected");
+        }
 
     }
 
@@ -108,21 +149,19 @@ private static final Logger logger = LoggerFactory.getLogger(BlueSmirf.class);
             is = bluetoothSocket.getInputStream();
             os = bluetoothSocket.getOutputStream();
             logger.info("ready for IO");
-            //TODO remove this. its for quick test not part of actual code
-            while(true){//TODO create actual serial montior object thats threaded and every thing
-                logger.debug("Waiting for data to Reading io");
-                int a = is.read();
-                logger.debug("Data has been read ");
-                logger.debug("Data is "+a);
-                view.displayMessgae(Integer.toString(a));
-            }
+            logger.info("Starting serial monitor");
+        //    Thread thread = new Thread(monitor);//TODO might need to maintain reference to the thread to check its status
+        //    thread.start(); //TODO also thread monitor is broken
+            logger.info("Success: Thread started");
+            connected = true;
+            return true;
         } catch (IOException e) {
             logger.error("Failed to connect",e);
             try {
                 socket.close();
             } catch (IOException e1) {  }
         }
-
+        connected = false;
         return false;
     }
 }

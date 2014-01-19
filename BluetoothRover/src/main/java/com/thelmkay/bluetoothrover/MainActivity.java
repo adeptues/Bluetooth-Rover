@@ -79,6 +79,10 @@ public class MainActivity extends ActionBarActivity {
         blueSmirf.connect();
     }
 
+    public void forwardAction(View view){
+        blueSmirf.forward();
+    }
+
     public void disconnect(View view){
         blueSmirf.disconnect();
 
