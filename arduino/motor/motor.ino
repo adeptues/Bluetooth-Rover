@@ -19,15 +19,36 @@ void setup(){
 }
 //Move the robot forward both wheels
 void forward(){
+  digitalWrite(pinADir,HIGH);
+  digitalWrite(pinBDir,HIGH);
+  analogWrite(pwmA,255);
+  analogWrite(pwmB,255);
 }
 //Move the robot backwards both wheels
 void reverse(){
+  digitalWrite(pinADir,LOW);
+  digitalWrite(pinBDir,LOW);
+  analogWrite(pwmA,255);
+  analogWrite(pwmB,255);
+}
+
+void brakeInertia(){
+  analogWrite(pwmB,0);
+  analogWrite(pwmA,0);
 }
 //Move left spin motor B 
 void left(){
+  digitalWrite(pinBDir,LOW);
+  digitalWrite(pinADir,HIGH);
+  analogWrite(pwmB,255);
+  analogWrite(pwmA,255);
 }
 //Move right spin motor A
 void right(){
+  digitalWrite(pinBDir,HIGH);
+  digitalWrite(pinADir,LOW);
+  analogWrite(pwmB,255);
+  analogWrite(pwmA,255);
 }
 //Main Control loop
 void loop(){

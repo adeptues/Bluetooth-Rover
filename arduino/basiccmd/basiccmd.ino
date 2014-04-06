@@ -34,13 +34,25 @@ void loop()
 {
   if(bluetooth.available())  // If the bluetooth sent any characters
   {
+    char command =  bluetooth.read();
+    if(command == 'w'){
+      //move forward global direction variable
+    }else if(command == 'a' ){
+      //left
+    }else if(command == 'd'){
+      //right
+    }else if(command == 's'){
+      //reverse
+    }else if(command == 'b'){
+      //brake
+    }
     // Send any characters the bluetooth prints to the serial monitor
     Serial.print((char)bluetooth.read());  
   }
-  if(Serial.available())  // If stuff was typed in the serial monitor
+ /* if(Serial.available())  // If stuff was typed in the serial monitor
   {
     // Send any characters the Serial monitor prints to the bluetooth
     bluetooth.print((char)Serial.read());
-  }
+  }*/
   // and loop forever and ever!
 }
