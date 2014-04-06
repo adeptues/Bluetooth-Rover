@@ -21,7 +21,7 @@ const int brakeA = 9;
 const int brakeB = 8;
 const int curA = 0;//analog input
 const int curB = 1;//analog input
-
+int state = 0;
 SoftwareSerial bluetooth(bluetoothTx, bluetoothRx);
 
 void setup()
@@ -84,15 +84,20 @@ void loop()
   if(bluetooth.available())  // If the bluetooth sent any characters
   {
     char command =  bluetooth.read();
-    if(command == 'w'){
+    if(command == 'w'){//state 1
+      if(state != 1){
+        brakeInertia();//may have to brake real when change direction
+      }
+      forward();
       //move forward global direction variable
-    }else if(command == 'a' ){
+    }else if(command == 'a' ){//state 2
+      if()
       //left
-    }else if(command == 'd'){
+    }else if(command == 'd'){//state 3
       //right
-    }else if(command == 's'){
+    }else if(command == 's'){//state 4
       //reverse
-    }else if(command == 'b'){
+    }else if(command == 'b'){//state 5
       //brake
     }
     //flush maybe  
